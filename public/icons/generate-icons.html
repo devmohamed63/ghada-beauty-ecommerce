@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Icon Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: linear-gradient(135deg, #ec4899 0%, #14b8a6 100%);
+            color: white;
+        }
+        .icon-preview {
+            display: inline-block;
+            margin: 10px;
+            text-align: center;
+        }
+        canvas {
+            border: 2px solid white;
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>كيان Dashboard Icons Generator</h1>
+    <p>This page generates PWA icons. Open browser console to download.</p>
+    <div id="preview"></div>
+    
+    <script>
+        const sizes = [16, 32, 72, 96, 128, 144, 152, 192, 384, 512];
+        const preview = document.getElementById('preview');
+        
+        sizes.forEach(size => {
+            const canvas = document.createElement('canvas');
+            canvas.width = size;
+            canvas.height = size;
+            const ctx = canvas.getContext('2d');
+            
+            // Background gradient
+            const gradient = ctx.createLinearGradient(0, 0, size, size);
+            gradient.addColorStop(0, '#ec4899');
+            gradient.addColorStop(1, '#14b8a6');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, size, size);
+            
+            // White circle
+            ctx.fillStyle = 'white';
+            ctx.beginPath();
+            ctx.arc(size/2, size/2, size * 0.35, 0, 2 * Math.PI);
+            ctx.fill();
+            
+            // Icon (dashboard/board)
+            ctx.fillStyle = '#ec4899';
+            const iconSize = size * 0.2;
+            const centerX = size / 2;
+            const centerY = size / 2;
+            
+            // Draw dashboard icon (grid)
+            const gridSize = iconSize / 2;
+            ctx.fillRect(centerX - gridSize - gridSize/4, centerY - gridSize - gridSize/4, gridSize/2, gridSize/2);
+            ctx.fillRect(centerX + gridSize/4, centerY - gridSize - gridSize/4, gridSize/2, gridSize/2);
+            ctx.fillRect(centerX - gridSize - gridSize/4, centerY + gridSize/4, gridSize/2, gridSize/2);
+            ctx.fillRect(centerX + gridSize/4, centerY + gridSize/4, gridSize/2, gridSize/2);
+            
+            const div = document.createElement('div');
+            div.className = 'icon-preview';
+            div.appendChild(canvas);
+            div.innerHTML += `<br>${size}x${size}`;
+            preview.appendChild(div);
+            
+            // Download
+            canvas.toBlob(blob => {
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `icon-${size}x${size}.png`;
+                console.log(`Download: icon-${size}x${size}.png`);
+                // Uncomment to auto-download:
+                // a.click();
+            });
+        });
+        
+        console.log('Icons generated! Check downloads or uncomment auto-download.');
+    </script>
+</body>
+</html>
+

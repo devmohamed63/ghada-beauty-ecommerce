@@ -1,11 +1,242 @@
-@import 'tailwindcss';
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&family=Tajawal:wght@400;500;600;700&display=swap');
 
-@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
-@source '../../storage/framework/views/*.php';
-@source '../**/*.blade.php';
-@source '../**/*.js';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-@theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+@layer base {
+    html {
+        direction: rtl;
+        font-family: 'Cairo', 'Tajawal', -apple-system, sans-serif;
+    }
+    
+    body {
+        @apply bg-white text-gray-800 antialiased;
+        font-family: 'Cairo', 'Tajawal', -apple-system, sans-serif;
+        direction: rtl;
+    }
+
+    h1 {
+        font-size: 2.5rem;
+        line-height: 1.2;
+        font-weight: 700;
+    }
+
+    h2 {
+        font-size: 2rem;
+        line-height: 1.3;
+        font-weight: 700;
+    }
+
+    h3 {
+        font-size: 1.5rem;
+        line-height: 1.4;
+        font-weight: 600;
+    }
+
+    h4 {
+        font-size: 1.25rem;
+        line-height: 1.5;
+        font-weight: 600;
+    }
+
+    p {
+        font-size: 1rem;
+        line-height: 1.6;
+    }
+
+    @media (max-width: 768px) {
+        h1 { font-size: 2rem; }
+        h2 { font-size: 1.75rem; }
+        h3 { font-size: 1.25rem; }
+    }
+}
+
+@layer components {
+    .container {
+        @apply mx-auto px-4 max-w-7xl;
+    }
+    
+    .btn-primary {
+        @apply bg-gradient-to-r from-pink-500 to-teal-500 hover:from-pink-600 hover:to-teal-600 text-white font-bold px-8 py-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out;
+        min-height: 48px;
+        touch-action: manipulation;
+        -webkit-tap-highlight-color: transparent;
+    }
+    
+    .btn-secondary {
+        @apply bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-bold px-8 py-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out;
+        min-height: 48px;
+        touch-action: manipulation;
+        -webkit-tap-highlight-color: transparent;
+    }
+    
+    /* Mobile button improvements */
+    @media (max-width: 768px) {
+        .btn-primary,
+        .btn-secondary {
+            @apply px-6 py-2.5 text-sm;
+            min-height: 44px;
+        }
+    }
+    
+    .gradient-text {
+        @apply bg-clip-text text-transparent bg-gradient-to-r from-pink-600 to-purple-600;
+    }
+    
+    .card {
+        @apply bg-white rounded-2xl shadow-md p-6 border border-pink-50;
+    }
+
+    /* Line Clamp Utilities */
+    .line-clamp-2 {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .line-clamp-3 {
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    /* Select dropdown arrow for RTL - Global Style */
+    /* This ensures all select elements have proper arrow positioning without text overlap */
+    select {
+        /* Reset browser default appearance */
+        appearance: none !important;
+        -webkit-appearance: none !important;
+        -moz-appearance: none !important;
+        
+        /* Custom dropdown arrow SVG - Soft rounded arrow matching brand */
+        /* Color: #333 (dark text) for normal state */
+        background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24'%3E%3Cpath stroke='%23333' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M8 10l4 4 4-4'/%3E%3C/svg%3E") !important;
+        background-repeat: no-repeat !important;
+        background-position: left 0.875rem center !important;
+        background-size: 1.25rem 1.25rem !important;
+        
+        /* RTL Support: Arrow on left side, ensure sufficient left padding */
+        /* Add extra padding-left to accommodate arrow, preserve existing right padding */
+        padding-left: 2.75rem !important;
+        
+        /* Ensure text doesn't overlap with arrow */
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
+    
+    /* Focus state with brand colors (mint/teal - matching focus ring) */
+    select:focus {
+        background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24'%3E%3Cpath stroke='%2314b8a6' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M8 10l4 4 4-4'/%3E%3C/svg%3E") !important;
+        outline: none;
+    }
+    
+    /* Hover state with pink accent (matching brand) */
+    select:hover:not(:disabled) {
+        background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24'%3E%3Cpath stroke='%23ec4899' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M8 10l4 4 4-4'/%3E%3C/svg%3E") !important;
+    }
+    
+    /* Disabled state */
+    select:disabled {
+        background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24'%3E%3Cpath stroke='%239ca3af' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M8 10l4 4 4-4'/%3E%3C/svg%3E") !important;
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+    
+    /* Mobile optimization - ensure arrow is visible and properly spaced on small screens */
+    @media (max-width: 640px) {
+        select {
+            background-position: left 0.625rem center !important;
+            background-size: 1.125rem 1.125rem !important;
+            padding-left: 2.5rem !important;
+        }
+    }
+    
+    /* Professional Notification Styles */
+    .custom-notification {
+        pointer-events: auto;
+    }
+    
+    .custom-notification * {
+        pointer-events: auto;
+    }
+    
+    @media (max-width: 640px) {
+        .custom-notification {
+            right: 1rem !important;
+            top: 1rem !important;
+            width: calc(100vw - 2rem) !important;
+            max-width: calc(100vw - 2rem) !important;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .custom-notification {
+            right: 0.75rem !important;
+            top: 0.75rem !important;
+            width: calc(100vw - 1.5rem) !important;
+            max-width: calc(100vw - 1.5rem) !important;
+        }
+    }
+    
+    .custom-notification .line-clamp-2 {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+    
+    /* Touch-friendly buttons */
+    .touch-manipulation {
+        touch-action: manipulation;
+        -webkit-tap-highlight-color: transparent;
+    }
+    
+    /* Minimum touch target size for accessibility */
+    button,
+    a[role="button"],
+    input[type="button"],
+    input[type="submit"] {
+        min-height: 44px;
+        min-width: 44px;
+    }
+    
+    @media (max-width: 768px) {
+        button,
+        a[role="button"],
+        input[type="button"],
+        input[type="submit"] {
+            min-height: 44px;
+            min-width: 44px;
+        }
+    }
+}
+
+@layer utilities {
+    /* Custom gradients matching /skin design */
+    .bg-primary-gradient {
+        background: linear-gradient(135deg, #ec4899 0%, #14b8a6 100%);
+    }
+    
+    .bg-secondary-gradient {
+        background: linear-gradient(135deg, #a855f7 0%, #ec4899 100%);
+    }
+
+    /* Animate on scroll */
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    .animate-fade-in-up {
+        animation: fadeInUp 0.6s ease-out;
+    }
 }
