@@ -311,5 +311,3 @@ For inquiries and support, please contact:
 **Made with ❤️ using Laravel**
 
 </div>
-#   g h a d a - b e a u t y - e c o m m e r c e  
- 
